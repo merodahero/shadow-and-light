@@ -6,7 +6,7 @@ local DTP = SLE.Datatexts
 local _G = _G
 local type, ipairs, pairs = type, ipairs, pairs
 local sort, next, wipe, tremove, tinsert = sort, next, wipe, tremove, tinsert
-local format, gsub, strfind, strmatch = format, gsub, strfind, strmatch
+local format, strmatch = format, strmatch
 
 local BNet_GetValidatedCharacterName = BNet_GetValidatedCharacterName
 local BNGetNumFriends = BNGetNumFriends
@@ -35,7 +35,6 @@ local characterFriend = _G.CHARACTER_FRIEND
 local battleNetString = _G.BATTLENET_OPTIONS_LABEL
 local activezone, inactivezone = {r=0.3, g=1.0, b=0.3}, {r=0.65, g=0.65, b=0.65}
 local friendTable, BNTable, tableList = {}, {}, {}
-local friendOnline, friendOffline = gsub(_G.ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(_G.ERR_FRIEND_OFFLINE_S,"%%s","")
 local wowString = BNET_CLIENT_WOW
 local classicID = WOW_PROJECT_CLASSIC
 local dataValid = false
@@ -367,7 +366,7 @@ local function Entry_OnMouseUp(self, info, button)
 	end
 end
 
-local function OnEvent(self, event, message)
+local function OnEvent(self, event)
 	local db = E.db.sle.dt.friends
 	local onlineFriends = C_FriendList_GetNumOnlineFriends()
 	local friendsTotal = C_FriendList_GetNumFriends()
@@ -375,13 +374,6 @@ local function OnEvent(self, event, message)
 
 	local totalOnline = onlineFriends + numBNetOnline
 	local totalFriends = friendsTotal + numBNetTotal
-
-	-- special handler to detect friend coming online or going offline
-	-- when this is the case, we invalidate our buffered table and update the
-	-- datatext information
-	if event == 'CHAT_MSG_SYSTEM' then
-		if not (strfind(message, friendOnline) or strfind(message, friendOffline)) then return end
-	end
 
 	if event == 'MODIFIER_STATE_CHANGED' then
 		if not IsAltKeyDown() and GetMouseFoci()[1] == self then
@@ -753,4 +745,4 @@ local function ValueColorUpdate(self, hex)
 	OnEvent(self)
 end
 
-DT:RegisterDatatext('S&L Friends', 'S&L', {'BN_FRIEND_ACCOUNT_ONLINE', 'BN_FRIEND_ACCOUNT_OFFLINE', 'BN_FRIEND_INFO_CHANGED', 'FRIENDLIST_UPDATE', 'CHAT_MSG_SYSTEM', 'MODIFIER_STATE_CHANGED'}, OnEvent, nil, OnClick, OnEnter, nil, 'S&L Friends', nil, ValueColorUpdate)
+DT:RegisterDatatext('S&L Friends', 'S&L', {'BN_FRIEND_ACCOUNT_ONLINE', 'BN_FRIEND_ACCOUNT_OFFLINE', 'BN_FRIEND_INFO_CHANGED', 'FRIENDLIST_UPDATE', 'MODIFIER_STATE_CHANGED'}, OnEvent, nil, OnClick, OnEnter, nil, 'S&L Friends', nil, ValueColorUpdate)

@@ -273,18 +273,8 @@ local function BuildGuildTable()
 	end
 end
 
-local function UpdateGuildMessage()
-	guildMotD = GetGuildRosterMOTD()
-end
-
-local resendRequest = false
 local eventHandlers = {
 	["PLAYER_GUILD_UPDATE"] = C_GuildInfo_GuildRoster,
-	["CHAT_MSG_SYSTEM"] = function(_, arg1)
-		if FRIEND_ONLINE ~= nil and arg1 and strfind(arg1, FRIEND_ONLINE) then
-			resendRequest = true
-		end
-	end,
 	-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
 	["PLAYER_ENTERING_WORLD"] = function()
@@ -295,18 +285,12 @@ local eventHandlers = {
 	end,
 	-- Guild Roster updated, so rebuild the guild table
 	["GUILD_ROSTER_UPDATE"] = function(self)
-		if(resendRequest) then
-			resendRequest = false
-			return C_GuildInfo_GuildRoster()
-		else
-			BuildGuildTable()
-			UpdateGuildMessage()
-			local mouseFrames = GetMouseFoci()
-			for k, v in pairs(mouseFrames) do
-				if v == self then
-					self:GetScript("OnEnter")(self, nil, true)
-					break
-				end
+		BuildGuildTable()
+		local mouseFrames = GetMouseFoci()
+		for k, v in pairs(mouseFrames) do
+			if v == self then
+				self:GetScript("OnEnter")(self, nil, true)
+				break
 			end
 		end
 	end,
@@ -402,7 +386,7 @@ function OnEnter(self, _, noUpdate)
 
 		if not E.db.sle.dt.guild.minimize_gmotd then
 			line = tooltip:AddLine()
-			tooltip:SetCell(line, 1, "|cff00ff00"..GetGuildRosterMOTD().."|r", "LEFT", 0, nil, nil, nil, 100)
+			tooltip:SetCell(line, 1, "|cff00ff00"..(guildMotD or "").."|r", "LEFT", 0, nil, nil, nil, 100)
 		end
 
 		tooltip:AddLine(" ")
@@ -504,4 +488,4 @@ local function ValueColorUpdate(self, hex)
 	OnEvent(self)
 end
 
-DT:RegisterDatatext('S&L Guild', 'S&L', {'CHAT_MSG_SYSTEM', 'GUILD_ROSTER_UPDATE', 'PLAYER_GUILD_UPDATE', 'GUILD_MOTD'}, OnEvent, nil, OnClick, OnEnter, nil, nil, nil, ValueColorUpdate)
+DT:RegisterDatatext('S&L Guild', 'S&L', {'GUILD_ROSTER_UPDATE', 'PLAYER_GUILD_UPDATE', 'PLAYER_ENTERING_WORLD', 'GUILD_MOTD'}, OnEvent, nil, OnClick, OnEnter, nil, nil, nil, ValueColorUpdate)
