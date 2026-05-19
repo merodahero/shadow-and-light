@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, cast-local-type
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 local MAJOR, MINOR = "HereBeDragons-Pins-2.0", 12

@@ -1,4 +1,5 @@
-﻿local SLE, T, E, L, V, P, G = unpack(ElvUI_SLE)
+﻿---@diagnostic disable: undefined-global, unbalanced-assignments, cast-local-type
+local SLE, T, E, L, V, P, G = unpack(ElvUI_SLE)
 
 --GLOBALS: unpack, NUM_BAG_SLOTS, IsAddOnLoaded, DEFAULT_CHAT_FRAME
 local _G = _G

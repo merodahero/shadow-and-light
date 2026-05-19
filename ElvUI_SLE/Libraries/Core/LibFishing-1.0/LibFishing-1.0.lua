@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 --[[
 Name: LibFishing-1.0
 Maintainers: Sutorix <sutorix@hotmail.com>

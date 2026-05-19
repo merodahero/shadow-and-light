@@ -36,6 +36,7 @@ local function OnEnter(btn)
 	if btn.UseTooltip then
 		_G['GameTooltip']:SetOwner(btn, 'ANCHOR_BOTTOMLEFT', -9)
 		if btn.TooltipText then
+---@diagnostic disable-next-line: missing-parameter
 			_G['GameTooltip']:SetText(btn.TooltipText)
 		elseif btn.secure.isToy then
 			_G['GameTooltip']:SetToyByItemID(btn.secure.ID)

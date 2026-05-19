@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local SLE, T, E, L, V, P, G = unpack(ElvUI_SLE)
 
 local type, pairs, tonumber = type, pairs, tonumber

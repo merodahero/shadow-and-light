@@ -1,4 +1,5 @@
-﻿local SLE, T, E, L, V, P, G = unpack(ElvUI_SLE)
+﻿---@diagnostic disable: undefined-global
+local SLE, T, E, L, V, P, G = unpack(ElvUI_SLE)
 
 local C_AddOns_GetAddOnEnableState = C_AddOns and C_AddOns.GetAddOnEnableState
 
