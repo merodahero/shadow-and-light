@@ -11,7 +11,9 @@ function SUF:Construct_TargetFrame(frame)
 
 	if frame.AuraBars then
 		frame.AuraBars.slBarID = 'aurabar'
-		hooksecurefunc(frame.AuraBars, 'PostUpdateBar', SUF.PostUpdateBar_AuraBars)
+		if frame.AuraBars.PostUpdateBar then -- Classic/non-Retail oUF aurabar element
+			hooksecurefunc(frame.AuraBars, 'PostUpdateBar', SUF.PostUpdateBar_AuraBars)
+		end
 	end
 	if frame.Castbar then
 		frame.Castbar.slBarID = 'castbar'

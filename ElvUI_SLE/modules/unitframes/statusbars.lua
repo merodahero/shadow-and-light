@@ -11,8 +11,28 @@ function SUF:PostUpdateBar_AuraBars(a, statusBar, b, c, d, e, debuffType)
 	statusBar:SetStatusBarTexture(texture)
 end
 
+-- Retail 12.1+: AuraBars is an AuraContainer; the texture is set once on the
+-- container (statusbarTexture) and applied to every bar button on update.
+-- Hook after ElvUI's Configure_AuraBars so we can override it with ours.
+function SUF:Configure_AuraBars(frame)
+	if not frame or not frame.AuraBars or not frame.AuraBars.statusbarTexture then return end
+	local db = E.db.sle.unitframe.statusbarTextures.aurabar
+	if not db.enable then return end
+
+	frame.AuraBars.statusbarTexture = E.LSM:Fetch('statusbar', db.texture)
+end
+
 function SUF:Update_StatusBars()
 	local db = E.db.sle.unitframe.statusbarTextures
+
+	-- Retail 12.1+: AuraBars is an AuraContainer (texture lives on the container,
+	-- not in UF.statusbars), so re-apply our override here for live option changes.
+	for _, unit in ipairs({ 'player', 'target', 'focus', 'pet' }) do
+		local frame = _G['ElvUF_' .. gsub(E:StringTitle(unit), 't(arget)', 'T%1')]
+		if frame then
+			SUF:Configure_AuraBars(frame)
+		end
+	end
 
 	for statusbar in pairs(UF.statusbars) do
 		-- if statusbar:GetParent().slBarID then print(statusbar:GetName(), statusbar:GetParent().slBarID, 'maybe i can do it here') end  -- another place classbars i found at the end of my changes ....
