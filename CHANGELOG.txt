@@ -1,3 +1,8 @@
+v4.93 8/13/26
+
+• fix unitframe aurabars for ElvUI 12.1 (Retail AuraContainer API)
+• toc & elvversion bump for 12.1
+
 v4.92 9/26/25
 
 • fix elvui compatibility
