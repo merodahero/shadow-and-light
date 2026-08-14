@@ -79,7 +79,9 @@ local SPELL_POWER_MANA = Enum.PowerType.Mana
 -- end)
 
 E:AddTag('sl:pvptimer', 1, function(unit,a,b)
-	if UnitIsPVPFreeForAll(unit) or UnitIsPVP(unit) then
+	local freePVP = UnitIsPVPFreeForAll(unit)
+	local unitPVP = UnitIsPVP(unit)
+	if freePVP or (E:NotSecretValue(unitPVP) and unitPVP) then
 		if unit ~= 'player' then
 			return 'PvP'
 		end
@@ -91,13 +93,19 @@ E:AddTag('sl:pvptimer', 1, function(unit,a,b)
 		else
 			return 'PvP'
 		end
-	else
-		return nil
 	end
+	return nil
 end)
 
 E:AddTag('sl:pvplevel', 'HONOR_LEVEL_UPDATE UNIT_FACTION', function(unit)
-	return (UnitIsPVP(unit) and UnitHonorLevel(unit) > 0) and UnitHonorLevel(unit) or nil
+	local unitPVP = UnitIsPVP(unit)
+	if E:NotSecretValue(unitPVP) and unitPVP then
+		local h = UnitHonorLevel(unit)
+		if h and h > 0 then
+			return h
+		end
+	end
+	return nil
 end)
 
 for textFormat in pairs(E.GetFormattedTextStyles) do

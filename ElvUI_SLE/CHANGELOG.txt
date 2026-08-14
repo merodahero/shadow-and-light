@@ -1,0 +1,5 @@
+4.94:
+[LIST]
+[*] fix secret-boolean taint in `sl:pvptimer` and `sl:pvplevel` tags by guarding `UnitIsPVP` reads with `E:NotSecretValue` (matches ElvUI 15.x core pattern). Resolves 1262x taint errors on protected frame Show path.
+[*] bump interface compatibility to 12.1 (ElvUI 15.18+).
+[/LIST]
