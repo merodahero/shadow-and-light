@@ -4,6 +4,7 @@ local UnitIsDead, UnitIsGhost = UnitIsDead, UnitIsGhost
 local function Update(self)
 	local element = self.SL_DeathIndicator
 	local unit = self.unit
+	if not unit then return end
 	local isDead = UnitIsDead(unit) or UnitIsGhost(unit)
 
 	if element.PreUpdate then
