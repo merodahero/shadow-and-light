@@ -1,3 +1,7 @@
+v4.95 8/20/26
+
+• fix nil-unit error in SL Death/Offline indicators (11x on login with unitframes; WoW 12.1 hardened arg validation)
+
 v4.93 8/13/26
 
 • fix unitframe aurabars for ElvUI 12.1 (Retail AuraContainer API)
